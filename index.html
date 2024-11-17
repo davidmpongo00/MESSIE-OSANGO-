@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>horloge universitaire</title>
+       <style>
+        body {
+        background-image: url('https://i.ibb.co/P1gDNCx/image.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: rgba(255, 255, 255, 0.5); /* Transparent white background */
+        font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #55c1ff;
+            border-radius: 500px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            padding: 5px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff1554;
+        }
+
+        .clock {
+            font-size: 48px;
+            color: #ffd26a;
+            margin: 20px 0;
+        }
+
+        .date {
+            font-size: 20px;
+            color: #5cff40;
+        }
+    </style>
+<head>
+<body>   
+   <body>
+<div class="container">
+    <h>horloge universitaire</h>
+    <div id="clock" class="clock"></div>
+    <p id="date" class="date"></p>
+</div>
+   <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            const currentTime = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('clock').textContent = currentTime;
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const currentDate = now.toLocaleDateString('fr-FR', options);
+            document.getElementById('date').textContent = currentDate;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock(); // Appel initial pour afficher l'heure immédiatement
+    </script>
+</body>
+</html>
