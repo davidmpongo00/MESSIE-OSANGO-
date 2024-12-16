@@ -1,141 +1,88 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Jeux de devinette</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcul de la Moyenne</title>
   <link rel="icon" href="https://i.imgur.com/AnFWx6c.jpeg" type="image/ico">
   <link rel="shortcut icon" href="https://i.imgur.com/AnFWx6c.jpeg">
-  <style>
-    body {
-      background:linear-gradient(160deg,lightblue,cyan);
-    }
-    .contenaire {
-      background: #fff;
-      display: block;
-      padding: 20px;
-      border-radius: 5px;
-    }
-    b {
-      color: green;
-    }
-    #input {
-      height: 30px;
-      color: blue;
-      border-color: blue;
-    }
-    h3{
-      color: blue;
-    }
-    #message {
-      height: auto;
-      width: 200px;
-    }
-    #format {
-      background: #fff;
-      padding: 10px;
-      height: auto;
-      margin-top: 50px; /* Modifié pour une marge plus raisonnable */
-      border-radius: 10px;
-    }
-    button {
-      cursor: pointer; /* Changer le curseur lors du survol du bouton */
-    }
-    h1{
-      text-align: center;
-    }
-      #fles{
-    background: red;
-    
-  }
-    img{
-      width:200px;
-      border-radius:20%;
-      border-style: none;
-      height:190px;
-      background:#cccc;
-    }
-  </style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-  <div class="contenaire">
-    <h1>𝚓𝚎𝚞𝚡</h1>
-    
-        <img src="/1733845500695.jpg" alt="" id="img">
-    <input type="file"id="files">
-    
-    <h3>Réponse:</h3><span id="demo"></span>
-    <b>Dévinez un nombre inclus entre 1 et 10</b>
-    <br>
-    <input type="number" id="input" placeholder="1 à 10">
-    <br>
-  </div>
 
-  <form id="format" action="#" method="POST">
-    <strong>Donnez-nous vos avis à propos de notres jeux😊 !!</strong>
-    <input type="text" id="message" placeholder="commentaires !">
-    <button type="button" onclick="send()">S E N D</button> <!-- Changement en type="button" -->
-  </form>
-  
-  <script>
-  
-  const image = document.getElementById('img');
-const input = document.getElementById('files');
-input.addEventListener('change',(e)=>{
-  image.src =URL.createObjectURL(e.target.files[0])
-});
-  
-  
-    const ask = document.getElementById('input');
-    const joueur = Math.ceil(Math.random() * 10);
-    
-    ask.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') {
-        if (parseInt(ask.value) !== joueur) { 
-          document.getElementById('demo').innerHTML = "Vous avez échoué, veuillez réessayer.";
+<h1>Calcul de la Moyenne d'un Élève by David Mp 💯 le génie 😎</h1>
+<table id="gradesTable">
+    <thead>
+        <tr>
+            <th>Matière</th>
+            <th>Note</th>
+            <th>Coefficient</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Les lignes de matières seront ajoutées ici -->
+    </tbody>
+</table>
+<button onclick="addRow()">Ajouter une Matière</button>
+<br><br>
+<button onclick="calculateAverage()">Calculer la Moyenne</button>
+<h2 id="result"></h2>
+
+<script>
+    let rowCount = 0;
+
+    function addRow() {
+        if (rowCount < 18) {
+            const tableBody = document.getElementById('gradesTable').getElementsByTagName('tbody')[0];
+            const newRow = tableBody.insertRow();
+            newRow.innerHTML = `
+                <td><input type="text" placeholder="Matière ${rowCount + 1}" required></td>
+                <td><input type="number" placeholder="Note" required></td>
+                <td><input type="number" placeholder="Coefficient" required></td>
+            `;
+            rowCount++;
         } else {
-          document.getElementById('demo').innerHTML = "Félicitations, vous avez réussi ! Le nombre caché était bien " + joueur;
+            alert("Vous ne pouvez pas ajouter plus de 3 matières.");
         }
-      }
-    });
-
-    const token = '';
-    const chatId = '';
-
-    function send() {
-      const message = document.getElementById('message').value;
-      if (message.trim() === "") {
-        alert("Veuillez entrer un message avant de l'envoyer.");
-        return;
-      }
-      
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message
-        })
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erreur lors de l\'envoi du message');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log(data);
-        alert("Message envoyé avec succès✅ !");
-        document.getElementById('message').value = ''; // Efface le message après envoi
-      })
-      .catch(error => {
-        console.error(error);
-        alert("Erreur lors de l'envoi du message. Veuillez réessayer.");
-      });
     }
-  </script>
+
+    function calculateAverage() {
+        const tableBody = document.getElementById('gradesTable').getElementsByTagName('tbody')[0];
+        const rows = tableBody.getElementsByTagName('tr');
+        let totalPoints = 0;
+        let totalCoefficients = 0;
+
+        for (let row of rows) {
+            const note = parseFloat(row.cells[1].getElementsByTagName('input')[0].value);
+            const coefficient = parseFloat(row.cells[2].getElementsByTagName('input')[0].value);
+            if (!isNaN(note) && !isNaN(coefficient)) {
+                totalPoints += note * coefficient;
+                totalCoefficients += coefficient;
+            }
+        }
+
+        const average = totalCoefficients > 0 ? (totalPoints / totalCoefficients).toFixed(2) : 0;
+        document.getElementById('result').innerText = `Moyenne: ${average}`;
+    }
+</script>
+
 </body>
 </html>
